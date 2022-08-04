@@ -10,10 +10,11 @@ env:
 
 on:
   workflow_dispatch:
-    opensilver-branch:
-      description: 'OpenSilver branch to use'
-      default: 'develop'
-      required: true
+    inputs:
+      opensilver-branch:
+        description: 'OpenSilver branch to use'
+        default: 'develop'
+        required: true
 
 jobs:
   TestApplicationBuild:
