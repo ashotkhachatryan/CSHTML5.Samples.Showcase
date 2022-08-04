@@ -17,7 +17,7 @@ on:
         required: true
 
 jobs:
-  TestApplicationBuild:
+  OpenSilver Showcase Build:
     runs-on: windows-latest
     steps:
       - uses: microsoft/setup-msbuild@v1.1
@@ -31,6 +31,13 @@ jobs:
         with:
           repository: ashotkhachatryan/OpenSilver
           ref: develop
+      - name: Clone OpenSilver Showcase
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+      - name: Run ls
+        run: |
+          ls -l
       - name: Restore Packages
         run: |
           ./restore-packages-opensilver.bat
@@ -53,10 +60,6 @@ jobs:
         run: |
           mkdir temp; echo "OpenSilver ${{ steps.format-version.outputs.version }}" > temp/Version.txt
           nuget.exe pack nuspec\OpenSilver.nuspec -OutputDirectory "output/OpenSilver" -Properties "PackageId=OpenSilver;PackageVersion=${{ steps.format-version.outputs.version }};Configuration=SL;Target=OpenSilver;RepositoryUrl=https://github.com/${{ env.GITHUB_REPOSITORY_OWNER_PART }}/${{ env.GITHUB_REPOSITORY_NAME_PART }}"
-      - name: Clone OpenSilver Showcase
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.ref }}
       - name: Replace text develop
         if: github.ref == 'refs/heads/develop'
         run: |
