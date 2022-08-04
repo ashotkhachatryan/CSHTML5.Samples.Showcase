@@ -74,10 +74,14 @@ jobs:
       - name: Replace UserName
         run: |
           sed -i 's\USERNAME\${{ secrets.OPENSILVERDEMOSUSERNAME }}\g' Showcase/OpenSilver.Samples.Showcase.Browser/Properties/PublishProfiles/publish.pubxml
+      - name: Run ls
+        run: |
+          ls
+          cd Showcase
+          ls
       - name: Use OpenSilver version
         run: |
         working-directory: Showcase
-          ls
           dotnet add OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj package OpenSilver --version ${{ steps.format-version.outputs.version }} -s ../build/output/OpenSilver/
           dotnet add src\OpenSilver.Samples.Showcase.csproj package OpenSilver --version ${{ steps.format-version.outputs.version }} -s ../build/output/OpenSilver/
       - name: Build and Deploy develop
