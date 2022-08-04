@@ -35,6 +35,7 @@ jobs:
         with:
           repository: ashotkhachatryan/OpenSilver
           ref: develop
+          path: './OpenSilver'
       - name: Run ls
         run: |
           ls
