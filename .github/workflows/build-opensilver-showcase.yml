@@ -75,10 +75,10 @@ jobs:
         run: |
           sed -i 's\USERNAME\${{ secrets.OPENSILVERDEMOSUSERNAME }}\g' Showcase/OpenSilver.Samples.Showcase.Browser/Properties/PublishProfiles/publish.pubxml
       - name: Use OpenSilver version
-        working-directory: Showcase
         run: |
-          dotnet add OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj package OpenSilver --version ${{ steps.format-version.outputs.version }} -s ../../../build/output/OpenSilver/
-          dotnet add src\OpenSilver.Samples.Showcase.csproj package OpenSilver --version ${{ steps.format-version.outputs.version }} -s ../../../build/output/OpenSilver/
+          ls
+          dotnet add Showcase\OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj package OpenSilver --version ${{ steps.format-version.outputs.version }} -s build/output/OpenSilver/
+          dotnet add Showcase\src\OpenSilver.Samples.Showcase.csproj package OpenSilver --version ${{ steps.format-version.outputs.version }} -s build/output/OpenSilver/
       - name: Build and Deploy develop
         working-directory: Showcase
         if: github.ref == 'refs/heads/develop'
