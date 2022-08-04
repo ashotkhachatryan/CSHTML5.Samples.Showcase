@@ -37,7 +37,7 @@ jobs:
           ref: ${{ github.ref }}
       - name: Run ls
         run: |
-          ls -l
+          ls
       - name: Restore Packages
         run: |
           ./restore-packages-opensilver.bat
