@@ -65,12 +65,12 @@ jobs:
         if: github.ref == 'refs/heads/develop'
         run: |
           sed -i 's\<base href=\"/\" />\<base href=\"${{ env.virtual-directory }}\" />\g' Showcase/OpenSilver.Samples.Showcase.Browser/wwwroot/index.html
-          tail -500 OpenSilver.Samples.Showcase.Browser/wwwroot/index.html
+          tail -500 Showcase/OpenSilver.Samples.Showcase.Browser/wwwroot/index.html
       - name: Replace text release
         if: github.ref == 'refs/heads/throw_fix'
         run: |
           sed -i 's\<base href=\"/\" />\<base href=\"${{ env.virtual-directory-release }}\" />\g' Showcase/OpenSilver.Samples.Showcase.Browser/wwwroot/index.html
-          tail -500 OpenSilver.Samples.Showcase.Browser/wwwroot/index.html
+          tail -500 Showcase/OpenSilver.Samples.Showcase.Browser/wwwroot/index.html
       - name: Replace UserName
         run: |
           sed -i 's\USERNAME\${{ secrets.OPENSILVERDEMOSUSERNAME }}\g' Showcase/OpenSilver.Samples.Showcase.Browser/Properties/PublishProfiles/publish.pubxml
