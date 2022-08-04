@@ -26,16 +26,16 @@ jobs:
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.202'
-      - name: Clone OpenSilver Showcase
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.ref }}
       - name: Clone OpenSilver repo
         uses: actions/checkout@v2
         with:
           repository: ashotkhachatryan/OpenSilver
           ref: develop
-          path: './OpenSilver'
+      - name: Clone OpenSilver Showcase
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+          path: './Showcase'
       - name: Run ls
         run: |
           ls
@@ -64,25 +64,28 @@ jobs:
       - name: Replace text develop
         if: github.ref == 'refs/heads/develop'
         run: |
-          sed -i 's\<base href=\"/\" />\<base href=\"${{ env.virtual-directory }}\" />\g' OpenSilver.Samples.Showcase.Browser/wwwroot/index.html
+          sed -i 's\<base href=\"/\" />\<base href=\"${{ env.virtual-directory }}\" />\g' Showcase/OpenSilver.Samples.Showcase.Browser/wwwroot/index.html
           tail -500 OpenSilver.Samples.Showcase.Browser/wwwroot/index.html
       - name: Replace text release
         if: github.ref == 'refs/heads/throw_fix'
         run: |
-          sed -i 's\<base href=\"/\" />\<base href=\"${{ env.virtual-directory-release }}\" />\g' OpenSilver.Samples.Showcase.Browser/wwwroot/index.html
+          sed -i 's\<base href=\"/\" />\<base href=\"${{ env.virtual-directory-release }}\" />\g' Showcase/OpenSilver.Samples.Showcase.Browser/wwwroot/index.html
           tail -500 OpenSilver.Samples.Showcase.Browser/wwwroot/index.html
       - name: Replace UserName
         run: |
-          sed -i 's\USERNAME\${{ secrets.OPENSILVERDEMOSUSERNAME }}\g' OpenSilver.Samples.Showcase.Browser\Properties\PublishProfiles\publish.pubxml
+          sed -i 's\USERNAME\${{ secrets.OPENSILVERDEMOSUSERNAME }}\g' Showcase/OpenSilver.Samples.Showcase.Browser/Properties/PublishProfiles/publish.pubxml
       - name: Use OpenSilver version
+        working-directory: Showcase
         run: |
           dotnet add OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj package OpenSilver --version ${{ steps.format-version.outputs.version }} -s ../../../build/output/OpenSilver/
           dotnet add src\OpenSilver.Samples.Showcase.csproj package OpenSilver --version ${{ steps.format-version.outputs.version }} -s ../../../build/output/OpenSilver/
       - name: Build and Deploy develop
+        working-directory: Showcase
         if: github.ref == 'refs/heads/develop'
         run: |
           msbuild OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj /p:DeployOnBuild=true /p:PublishProfile="OpenSilver.Samples.Showcase.Browser\Properties\PublishProfiles\publish.pubxml" /p:Password=${{ secrets.OPENSILVERDEMOSUSERPWD }} /p:DeployIisAppPath=${{ env.app-path }} /p:MSDeployServiceURL=${{ env.deploy-service-url }}
       - name: Build and Deploy release
+        working-directory: Showcase
         if: github.ref == 'refs/heads/throw_fix'
         run: |
           msbuild OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj /p:DeployOnBuild=true /p:PublishProfile="OpenSilver.Samples.Showcase.Browser\Properties\PublishProfiles\publish.pubxml" /p:Password=${{ secrets.OPENSILVERDEMOSUSERPWD }} /p:DeployIisAppPath=${{ env.app-path }} /p:MSDeployServiceURL=${{ env.deploy-service-url }}
