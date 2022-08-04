@@ -36,6 +36,9 @@ jobs:
         with:
           ref: ${{ github.ref }}
           path: './Showcase'
+      - name: Restore packages
+        run: |
+          nuget restore Showcase/OpenSilver.Samples.Showcase.sln
       - name: Run ls
         run: |
           ls
