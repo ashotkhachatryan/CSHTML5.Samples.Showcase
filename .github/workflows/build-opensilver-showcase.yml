@@ -80,8 +80,8 @@ jobs:
       - name: Replace OpenSilver Version
         working-directory: Showcase
         run: |
-          sed -i 's\<OpenSilverVersion>1.0.0</OpenSilverVersion>\<OpenSilverVersion>${{ steps.format-version.outputs.version }}</OpenSilverVersion>\" />\g' OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj
-          sed -i 's\<OpenSilverVersion>1.0.0</OpenSilverVersion>\<OpenSilverVersion>${{ steps.format-version.outputs.version }}</OpenSilverVersion>\" />\g' src\OpenSilver.Samples.Showcase.csproj
+          sed -i 's\<OpenSilverVersion>1.0.0</OpenSilverVersion>\<OpenSilverVersion>${{ steps.format-version.outputs.version }}</OpenSilverVersion>\g' OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj
+          sed -i 's\<OpenSilverVersion>1.0.0</OpenSilverVersion>\<OpenSilverVersion>${{ steps.format-version.outputs.version }}</OpenSilverVersion>\g' src\OpenSilver.Samples.Showcase.csproj
           tail -500 OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj
           tail -500 src\OpenSilver.Samples.Showcase.csproj
       - name: Restore OpenSilver
