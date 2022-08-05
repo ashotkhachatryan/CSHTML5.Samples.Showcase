@@ -5,9 +5,10 @@
     <TargetFramework>net6.0</TargetFramework>
     <NoXamlPreprocessor>True</NoXamlPreprocessor>
     <OpenSilverType>4</OpenSilverType>
+	  <OpenSilverVersion>1.0.0</OpenSilverVersion>
     <!--Use .NET 6 to enable the commented options below-->
     <PublishTrimmed>true</PublishTrimmed>
-    <!--<RunAOTCompilation Condition="'$(IsSecondPass)'=='True'">true</RunAOTCompilation>-->
+	<!--<RunAOTCompilation Condition="'$(IsSecondPass)'=='True'">true</RunAOTCompilation>-->
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'SL'">
@@ -26,8 +27,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0" PrivateAssets="all" />
+    <PackageReference Include="OpenSilver" Version="$(OpenSilverVersion)" Condition="'$(Configuration)' == 'SL' Or '$(Configuration)' == 'SL.Release'" />
+    <PackageReference Include="OpenSilver.UwpCompatible" Version="$(OpenSilverVersion)" Condition="'$(Configuration)' == 'UWP'" />
+	<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.0-rc.1.*" />
+	<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.0-rc.1.*" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
