@@ -77,11 +77,23 @@ jobs:
       - name: Replace UserName
         run: |
           sed -i 's\USERNAME\${{ secrets.OPENSILVERDEMOSUSERNAME }}\g' Showcase/OpenSilver.Samples.Showcase.Browser/Properties/PublishProfiles/publish.pubxml
-      - name: Use OpenSilver version
+      - name: Replace OpenSilver Version
         working-directory: Showcase
         run: |
-          dotnet add OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj package OpenSilver --version ${{ steps.format-version.outputs.version }} -s ../build/output/OpenSilver/
-          dotnet add src\OpenSilver.Samples.Showcase.csproj package OpenSilver --version ${{ steps.format-version.outputs.version }} -s ../build/output/OpenSilver/
+          sed -i 's\<OpenSilverVersion>1.0.0</OpenSilverVersion>\<OpenSilverVersion>${{ steps.format-version.outputs.version }}</OpenSilverVersion>\" />\g' OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj
+          sed -i 's\<OpenSilverVersion>1.0.0</OpenSilverVersion>\<OpenSilverVersion>${{ steps.format-version.outputs.version }}</OpenSilverVersion>\" />\g' src\OpenSilver.Samples.Showcase.csproj
+          tail -500 OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj
+          tail -500 src\OpenSilver.Samples.Showcase.csproj
+      - name: Restore OpenSilver
+        working-directory: Showcase
+        run: |
+          dotnet restore OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj -s ../build/output/OpenSilver/
+          dotner restore src\OpenSilver.Samples.Showcase.csproj -s ../build/output/OpenSilver/
+      #- name: Use OpenSilver version
+      #  working-directory: Showcase
+      #  run: |
+      #    dotnet add OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj package OpenSilver --version ${{ steps.format-version.outputs.version }} -s ../build/output/OpenSilver/
+      #    dotnet add src\OpenSilver.Samples.Showcase.csproj package OpenSilver --version ${{ steps.format-version.outputs.version }} -s ../build/output/OpenSilver/
       - name: Build and Deploy develop
         working-directory: Showcase
         if: github.ref == 'refs/heads/develop'
