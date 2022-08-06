@@ -87,8 +87,8 @@ jobs:
       - name: Restore OpenSilver
         working-directory: Showcase
         run: |
-          dotnet restore OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj -s ../build/output/OpenSilver/
-          dotnet restore src\OpenSilver.Samples.Showcase.csproj -s ../build/output/OpenSilver/
+          dotnet restore OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj -s ../build/output/OpenSilver/ /property:Configuration=SL.Release
+          dotnet restore src\OpenSilver.Samples.Showcase.csproj -s ../build/output/OpenSilver/ /property:Configuration=SL.Release
       #- name: Use OpenSilver version
       #  working-directory: Showcase
       #  run: |
