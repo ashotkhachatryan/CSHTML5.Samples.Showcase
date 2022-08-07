@@ -30,7 +30,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: ashotkhachatryan/OpenSilver
-          ref: develop
+          ref: ${{ github.event.inputs.opensilver-branch }}
       - name: Clone OpenSilver Showcase
         uses: actions/checkout@v2
         with:
@@ -68,12 +68,10 @@ jobs:
         if: github.ref == 'refs/heads/develop'
         run: |
           sed -i 's\<base href=\"/\" />\<base href=\"${{ env.virtual-directory }}\" />\g' Showcase/OpenSilver.Samples.Showcase.Browser/wwwroot/index.html
-          tail -500 Showcase/OpenSilver.Samples.Showcase.Browser/wwwroot/index.html
       - name: Replace text release
         if: github.ref == 'refs/heads/throw_fix'
         run: |
           sed -i 's\<base href=\"/\" />\<base href=\"${{ env.virtual-directory-release }}\" />\g' Showcase/OpenSilver.Samples.Showcase.Browser/wwwroot/index.html
-          tail -500 Showcase/OpenSilver.Samples.Showcase.Browser/wwwroot/index.html
       - name: Replace UserName
         run: |
           sed -i 's\USERNAME\${{ secrets.OPENSILVERDEMOSUSERNAME }}\g' Showcase/OpenSilver.Samples.Showcase.Browser/Properties/PublishProfiles/publish.pubxml
@@ -82,18 +80,11 @@ jobs:
         run: |
           sed -i 's\<OpenSilverVersion>1.0.0</OpenSilverVersion>\<OpenSilverVersion>${{ steps.format-version.outputs.version }}</OpenSilverVersion>\g' OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj
           sed -i 's\<OpenSilverVersion>1.0.0</OpenSilverVersion>\<OpenSilverVersion>${{ steps.format-version.outputs.version }}</OpenSilverVersion>\g' src\OpenSilver.Samples.Showcase.csproj
-          tail -500 OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj
-          tail -500 src\OpenSilver.Samples.Showcase.csproj
       - name: Restore OpenSilver
         working-directory: Showcase
         run: |
           dotnet restore OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj -s ../build/output/OpenSilver/ /property:Configuration=SL.Release
           dotnet restore src\OpenSilver.Samples.Showcase.csproj -s ../build/output/OpenSilver/ /property:Configuration=SL.Release
-      #- name: Use OpenSilver version
-      #  working-directory: Showcase
-      #  run: |
-      #    dotnet add OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj package OpenSilver --version ${{ steps.format-version.outputs.version }} -s ../build/output/OpenSilver/
-      #    dotnet add src\OpenSilver.Samples.Showcase.csproj package OpenSilver --version ${{ steps.format-version.outputs.version }} -s ../build/output/OpenSilver/
       - name: Build and Deploy develop
         working-directory: Showcase
         if: github.ref == 'refs/heads/develop'
