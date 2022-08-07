@@ -29,7 +29,7 @@ jobs:
       - name: Clone OpenSilver repo
         uses: actions/checkout@v2
         with:
-          repository: ashotkhachatryan/OpenSilver
+          repository: OpenSilver/OpenSilver
           ref: ${{ github.event.inputs.opensilver-branch }}
       - name: Clone OpenSilver Showcase
         uses: actions/checkout@v2
