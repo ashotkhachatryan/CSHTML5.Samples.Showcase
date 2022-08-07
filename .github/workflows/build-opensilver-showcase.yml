@@ -36,13 +36,10 @@ jobs:
         with:
           ref: ${{ github.ref }}
           path: './Showcase'
-      - name: Restore packages
+      - name: Restore Showcase packages
         run: |
           nuget restore Showcase/OpenSilver.Samples.Showcase.sln
-      - name: Run ls
-        run: |
-          ls
-      - name: Restore Packages
+      - name: Restore OpenSilver Packages
         run: |
           ./restore-packages-opensilver.bat
           nuget restore src/OpenSilver.sln -v quiet
@@ -69,7 +66,7 @@ jobs:
         run: |
           sed -i 's\<base href=\"/\" />\<base href=\"${{ env.virtual-directory }}\" />\g' Showcase/OpenSilver.Samples.Showcase.Browser/wwwroot/index.html
       - name: Replace text release
-        if: github.ref == 'refs/heads/throw_fix'
+        if: github.ref == 'refs/heads/refs/heads/releases/OpenSilver/1.1.0'
         run: |
           sed -i 's\<base href=\"/\" />\<base href=\"${{ env.virtual-directory-release }}\" />\g' Showcase/OpenSilver.Samples.Showcase.Browser/wwwroot/index.html
       - name: Replace UserName
@@ -92,6 +89,6 @@ jobs:
           msbuild OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj /p:DeployOnBuild=true /p:PublishProfile="OpenSilver.Samples.Showcase.Browser\Properties\PublishProfiles\publish.pubxml" /p:Password=${{ secrets.OPENSILVERDEMOSUSERPWD }} /p:DeployIisAppPath=${{ env.app-path }} /p:MSDeployServiceURL=${{ env.deploy-service-url }} /p:Configuration=SL.Release
       - name: Build and Deploy release
         working-directory: Showcase
-        if: github.ref == 'refs/heads/throw_fix'
+        if: github.ref == 'refs/heads/releases/OpenSilver/1.1.0'
         run: |
-          msbuild OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj /p:DeployOnBuild=true /p:PublishProfile="OpenSilver.Samples.Showcase.Browser\Properties\PublishProfiles\publish.pubxml" /p:Password=${{ secrets.OPENSILVERDEMOSUSERPWD }} /p:DeployIisAppPath=${{ env.app-path }} /p:MSDeployServiceURL=${{ env.deploy-service-url }} /p:Configuration=SL.Release
+          msbuild OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj /p:DeployOnBuild=true /p:PublishProfile="OpenSilver.Samples.Showcase.Browser\Properties\PublishProfiles\publish.pubxml" /p:Password=${{ secrets.OPENSILVERDEMOSUSERPWD }} /p:DeployIisAppPath=${{ env.app-path-release }} /p:MSDeployServiceURL=${{ env.deploy-service-url }} /p:Configuration=SL.Release
