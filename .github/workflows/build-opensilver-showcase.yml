@@ -30,9 +30,6 @@ jobs:
         run: |
           echo "vdir=${{ env.virtual-directory-release }}" >> $env:GITHUB_ENV
           echo "apath=${{ env.app-path-release }}" >> $env:GITHUB_ENV
-      - name: PRINT VARIABLES
-        run: |
-          echo "VALUES ARE: '${{ env.vdir }}'"
       - uses: microsoft/setup-msbuild@v1.1
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v3.x
