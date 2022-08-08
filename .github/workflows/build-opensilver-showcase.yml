@@ -23,13 +23,13 @@ jobs:
       - name: Fill path develop
         if: "${{ github.event.inputs.opensilver-branch == 'develop' }}"
         run: |
-          echo "vdir=$virtual-directory" >> $GITHUB_ENV
-          echo "apath=$app-path" >> $GITHUB_ENV
+          echo "vdir=virtual-directory" >> $GITHUB_ENV
+          echo "apath=app-path" >> $GITHUB_ENV
       - name: Fill path release
         if: "${{ github.event.inputs.opensilver-branch == 'releases/OpenSilver/1.1.0' }}"
         run: |
-          echo "vdir=$virtual-directory-release" >> $GITHUB_ENV
-          echo "apath=$app-path-release" >> $GITHUB_ENV
+          echo "vdir=virtual-directory-release" >> $GITHUB_ENV
+          echo "apath=app-path-release" >> $GITHUB_ENV
       - name: PRINT VARIABLES
         run: |
           echo "VALUES ARE: '${{ env.vdir }}'"
