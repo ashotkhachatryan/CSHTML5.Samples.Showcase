@@ -20,14 +20,11 @@ jobs:
   OpenSilverShowcaseBuild:
     runs-on: windows-latest
     steps:
-      - uses: microsoft/setup-msbuild@v1.1
-      - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
       - name: Fill path develop
         if: "${{ github.event.inputs.opensilver-branch == 'develop' }}"
         run: |
-          echo "vdir=virtual-directory" >> $GITHUB_ENV
-          echo "apath=app-path" >> $GITHUB_ENV
+          echo "vdir=virtual-directory" >> $env:GITHUB_ENV
+          echo "apath=app-path" >> $env:GITHUB_ENV
       - name: Fill path release
         if: "${{ github.event.inputs.opensilver-branch == 'releases/OpenSilver/1.1.0' }}"
         run: |
@@ -36,6 +33,9 @@ jobs:
       - name: PRINT VARIABLES
         run: |
           echo "VALUES ARE: '${{ env.vdir }}'"
+      - uses: microsoft/setup-msbuild@v1.1
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v3.x
       - uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.202'
