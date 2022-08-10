@@ -72,7 +72,6 @@ jobs:
           mkdir temp; echo "OpenSilver ${{ steps.format-version.outputs.version }}" > temp/Version.txt
           nuget.exe pack nuspec\OpenSilver.nuspec -OutputDirectory "output/OpenSilver" -Properties "PackageId=OpenSilver;PackageVersion=${{ steps.format-version.outputs.version }};Configuration=SL;Target=OpenSilver;RepositoryUrl=https://github.com/${{ env.GITHUB_REPOSITORY_OWNER_PART }}/${{ env.GITHUB_REPOSITORY_NAME_PART }}"
       - name: Replace text
-        if: "${{ github.event.inputs.opensilver-branch == 'develop' }}"
         run: |
           sed -i 's\<base href=\"/\" />\<base href=\"${{ env.vdir }}\" />\g' Showcase/OpenSilver.Samples.Showcase.Browser/wwwroot/index.html
       - name: Replace UserName
@@ -90,6 +89,5 @@ jobs:
           dotnet restore src\OpenSilver.Samples.Showcase.csproj -s ../build/output/OpenSilver/ /property:Configuration=SL.Release
       - name: Build and Deploy
         working-directory: Showcase
-        if: "${{ github.event.inputs.opensilver-branch == 'develop' }}"
         run: |
           msbuild OpenSilver.Samples.Showcase.Browser\OpenSilver.Samples.Showcase.Browser.csproj /p:DeployOnBuild=true /p:PublishProfile="OpenSilver.Samples.Showcase.Browser\Properties\PublishProfiles\publish.pubxml" /p:Password=${{ secrets.OPENSILVERDEMOSUSERPWD }} /p:DeployIisAppPath=${{ env.apath }} /p:MSDeployServiceURL=${{ env.deploy-service-url }} /p:Configuration=SL.Release
